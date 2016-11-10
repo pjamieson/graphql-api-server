@@ -9,7 +9,7 @@ app.use(express.static('public'));
 const schema = require('./data/schema');
 const MONGO_URL =
   //'mongodb://localhost:27017/cascadu';
-  'mongodb://dev1:dev1pass@ds041561.mlab.com:41561/cascadu';
+  'mongodb://guest:cascadu@ds041561.mlab.com:41561/cascadu';
 
 MongoClient.connect(MONGO_URL, (err, db) => {
   assert.equal(null, err);
