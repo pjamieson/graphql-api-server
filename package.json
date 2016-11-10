@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "coming soon"
+    "url": "https://github.com/pjamieson/graphql-api-server"
   },
   "author": "Patrick Jamieson",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.14.0",
     "express-graphql": "^0.5.4",
