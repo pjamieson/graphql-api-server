@@ -1,0 +1,22 @@
+{
+  "name": "graphql-api-server",
+  "version": "1.0.0",
+  "description": "A GraphQL API server initially supporting the data needs of WestIndiesBooks.com",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "coming soon"
+  },
+  "author": "Patrick Jamieson",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "express-graphql": "^0.5.4",
+    "graphql": "^0.7.2",
+    "graphql-relay": "^0.4.3",
+    "mongodb": "^2.2.11"
+  }
+}
