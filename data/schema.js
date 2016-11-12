@@ -86,11 +86,18 @@ const AuthorsListType = new GraphQLObjectType({
       args: connectionArgsWithSearch,
       resolve: (_, args, { db }) => {
         let findParams = {};
+        let sortParams = { "last_name": 1, "first_name": 1 }
         if (args.searchTerm) {
-          findParams.last_name = new RegExp(args.searchTerm, 'i');
+          findParams = {
+            $or: [
+              { "last_name": new RegExp(args.searchTerm, 'i') },
+              { "first_name": new RegExp(args.searchTerm, 'i') },
+            ]
+          };
+          //findParams.birth_country = new RegExp('Jamaica', 'i');
         }
         return connectionFromPromisedArray(
-          db.collection('authors').find(findParams).toArray(),
+          db.collection('authors').find(findParams).sort(sortParams).toArray(),
           args
         );
       }

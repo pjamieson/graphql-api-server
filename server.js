@@ -2,12 +2,12 @@ const { MongoClient } = require('mongodb');
 const assert = require('assert');
 const graphqlHTTP = require('express-graphql');
 const express = require('express');
-const bodyParser = require('body-parser'); // express middleware - parses incoming requests
 const cors = require('cors');
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json({ type: '*/*'}));
+
+const PORT = process.env.PORT || 4000;
 
 const schema = require('./data/schema');
 const MONGO_URL =
@@ -26,7 +26,7 @@ MongoClient.connect(MONGO_URL, (err, db) => {
       })/* : Middleware */
   );
 
-  app.listen(4000, () =>
-    console.log('Running a GraphQL API server at localhost:4000/graphql')
+  app.listen(PORT, () =>
+    console.log('Running GraphQL API server on port:', PORT)
   );
 });
