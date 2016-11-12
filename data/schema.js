@@ -24,9 +24,9 @@ const { ObjectID } = require('mongodb');
 const globalIdFetcher = (globalId, { db }) => {
   const { type, id } = fromGlobalId(globalId);
   switch (type) {
-    case 'AuthorsLibrary':
-      // We only have one author library
-      return authorsLibrary;
+    case 'AuthorsList':
+      // We only have one author list
+      return authorsList;
     case 'Author':
       return db.collection('authors').findOne(ObjectID(id));
     default:
@@ -48,6 +48,14 @@ const AuthorType = new GraphQLObjectType({
     id: globalIdField('Author', obj => obj._id),
     first_name: { type: GraphQLString },
     last_name: { type: GraphQLString },
+    full_name: {
+      type: GraphQLString,
+      resolve: obj => obj.first_name + ' ' + obj.last_name
+    },
+    alpha_order_name: {
+      type: GraphQLString,
+      resolve: obj => obj.last_name + ', ' + obj.first_name
+    },
     birth_country: { type: GraphQLString },
     birth_year: { type: GraphQLString },
     death_year: { type: GraphQLString },
@@ -67,11 +75,11 @@ const { connectionType: AuthorsConnectionType } =
 let connectionArgsWithSearch = connectionArgs;
 connectionArgsWithSearch.searchTerm = { type: GraphQLString };
 
-const AuthorsLibraryType = new GraphQLObjectType({
-  name: 'AuthorsLibrary',
+const AuthorsListType = new GraphQLObjectType({
+  name: 'AuthorsList',
   interfaces: [nodeInterface],
   fields: {
-    id: globalIdField('AuthorsLibrary'),
+    id: globalIdField('AuthorsList'),
     authorsConnection: {
       type: AuthorsConnectionType,
       description: 'A list of the authors in the database',
@@ -90,16 +98,16 @@ const AuthorsLibraryType = new GraphQLObjectType({
   }
 });
 
-const authorsLibrary = { type: AuthorsLibraryType };
+const authorsList = { type: AuthorsListType };
 
 const queryType = new GraphQLObjectType({
   name: 'RootQuery',
   fields: {
     node: nodeField,
-    authorsLibrary: {
-      type: AuthorsLibraryType,
-      description: 'The Authors Library',
-      resolve: () => authorsLibrary
+    authorsList: {
+      type: AuthorsListType,
+      description: 'The Authors List',
+      resolve: () => authorsList
     }
   }
 });
@@ -134,9 +142,9 @@ const mutationType = new GraphQLObjectType({
   }
 });
 
-const mySchema = new GraphQLSchema({
+const cascaduSchema = new GraphQLSchema({
   query: queryType,
   mutation: mutationType
 });
 
-module.exports = mySchema;
+module.exports = cascaduSchema;
