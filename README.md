@@ -20,7 +20,9 @@ My initial observation is that this API layer is smaller than I thought it would
 
 1. Add a database named "cascadu" to your local MongoDB instance
 2. Import the seed data found in this project's /data directory to an "authors" collection
+
     $ mongoimport -d cascadu -c authors --file /path/to/authors_mongo_seed.json --jsonArray
+    
 3. In this project's server.js file, use the localhost URL
 
 
