@@ -14,55 +14,56 @@ mongodb://guest:cascadu@ds041561.mlab.com:41561/cascadu
 
 2) Import the seed data found in this project's /data directory to an "authors" collection
 
-*$ mongoimport -d cascadu -c authors --file /path/to/authors_mongo_seed.json --jsonArray*
+    $ mongoimport -d cascadu -c authors --file /path/to/authors_mongo_seed.json --jsonArray
 
 3) In this project's server.js file, use the localhost URL
 
 
 ##Here's an example of a simple GraphQL query against this server:
 
-```{
-  authorsList {
-    authorsConnection {
-      edges {
-        node {
-          alpha_order_name
-          birth_country
+    {
+      authorsList {
+        authorsConnection {
+          edges {
+            node {
+              alpha_order_name
+              birth_country
+            }
+          }
         }
       }
     }
-  }
-}
-```
+
 Response:
 
-```{
-  "data": {
-    "authorsList": {
-      "authorsConnection": {
-        "edges": [
-          {
-            "node": {
-              "alpha_order_name": "Aarons, Rudolph L. C.",
-              "birth_country": "Jamaica"
-            }
-          },
-          {
-            "node": {
-              "alpha_order_name": "Aboud, James",
-              "birth_country": "Trinidad and Tobago"
-            }
-          },
-          ...
-          {
-            "node": {
-              "alpha_order_name": "Zobel, Joseph",
-              "birth_country": "Martinique"
-            }
+    {
+      "data": {
+        "authorsList": {
+          "authorsConnection": {
+            "edges": [
+              {
+                "node": {
+                  "alpha_order_name": "Aarons, Rudolph L. C.",
+                  "birth_country": "Jamaica"
+                }
+              },
+              {
+                "node": {
+                  "alpha_order_name": "Aboud, James",
+                  "birth_country": "Trinidad and Tobago"
+                }
+              },
+              ...
+              {
+                "node": {
+                  "alpha_order_name": "Zobel, Joseph",
+                  "birth_country": "Martinique"
+                }
+              }
+            ]
           }
-        ]
+        }
       }
     }
-  }
-}
-```
+
+More to come...
