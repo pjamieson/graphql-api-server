@@ -41,24 +41,68 @@ const { nodeInterface, nodeField } = nodeDefinitions(
   globalTypeResolver
 );
 
+const EditionType = new GraphQLObjectType({
+  name: 'Edition',
+  fields: {
+    publisher: {
+      type: GraphQLString,
+      description: 'The publisher of the edition'
+    },
+    pub_info: {
+      type: GraphQLString,
+      description: 'The place publised, the publisher, and the publication year.'
+    }
+  }
+});
+
+const BookType = new GraphQLObjectType({
+  name: 'Book',
+  fields: {
+    title: {
+      type: GraphQLString,
+      description: 'The title of the book'
+    },
+    pub_year: {
+      type: GraphQLString,
+      description: 'The year the book was first published.'
+    },
+    editions: {
+      type: new GraphQLList(EditionType),
+      description: 'The published editions of the book.'
+    }
+  }
+});
+
 const AuthorType = new GraphQLObjectType({
   name: 'Author',
-  interfaces: [nodeInterface],
+  interfaces: [ nodeInterface ],
   fields: {
     id: globalIdField('Author', obj => obj._id),
-    first_name: { type: GraphQLString },
-    last_name: { type: GraphQLString },
+    first_name: {
+      type: GraphQLString,
+      description: 'The first name of the creator.'
+    },
+    last_name: {
+      type: GraphQLString,
+      description: 'The last name of the creator.'
+    },
     full_name: {
       type: GraphQLString,
+      description: 'The full name of the creator.',
       resolve: obj => obj.first_name + ' ' + obj.last_name
     },
     alpha_order_name: {
       type: GraphQLString,
+      description: 'The alpha order name of the creator.',
       resolve: obj => obj.last_name + ', ' + obj.first_name
     },
     birth_country: { type: GraphQLString },
     birth_year: { type: GraphQLString },
     death_year: { type: GraphQLString },
+    books: {
+      type: new GraphQLList(BookType),
+      description: 'The books by an author'
+    },
     likesCount: {
       type: GraphQLInt,
       resolve: obj => obj.likesCount || 0
